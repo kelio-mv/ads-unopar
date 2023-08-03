@@ -48,3 +48,31 @@
     text-align: center;
   }
 }
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  &__input {
+    width: 1rem;
+    height: 1rem;
+    border: 1px solid var(--clr-400);
+
+    &--done {
+      background: #15803d;
+      border: none;
+    }
+
+    &--undone {
+      background: #b91c1c;
+      border: none;
+    }
+  }
+
+  &__image {
+    display: block;
+    width: 100%;
+    filter: invert(1);
+  }
+}

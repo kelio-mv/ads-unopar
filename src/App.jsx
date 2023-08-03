@@ -1,118 +1,78 @@
-import Arrow from "./Arrow";
+import React from "react";
+import Checkbox from "./Checkbox";
+import getCalendars from "./calendars";
 import "./App.scss";
 
-function App() {
-  const commonEvents = [
-    { name: "Teleaula 1" },
-    { name: "Teleaula 2" },
-    { name: "Teleaula 3" },
-    { name: "Teleaula 4" },
-    { name: "Conteúdo Web 1" },
-    { name: "Conteúdo Web 2" },
-    { name: "Conteúdo Web 3" },
-    { name: "Conteúdo Web 4" },
-    { name: "Livro Didático" },
-  ];
-  const disciplines = [
-    {
-      name: "Linguagem de Programação",
-      events: [
-        ...commonEvents,
-        { name: "Avaliação 1", end: "28/08" },
-        { name: "Prova Presencial - 1º chamada", start: "28/08", end: "02/09" },
-        { name: "Avaliação 2", end: "04/09" },
-        { name: "Portfólio", end: "28/10" },
-      ],
-      color: "#15803d",
-    },
-    {
-      name: "Engenharia de Software",
-      events: [
-        ...commonEvents,
-        { name: "Avaliação 1", start: "21/08", end: "25/09" },
-        { name: "Prova Presencial - 1º chamada", start: "25/09", end: "30/09" },
-        { name: "Avaliação 2", start: "21/08", end: "02/10" },
-      ],
-      color: "#047857",
-    },
-    {
-      name: "Lógica e Matemática Computacional",
-      events: [
-        ...commonEvents,
-        { name: "Avaliação 1", start: "11/09", end: "23/10" },
-        { name: "Portfólio", end: "28/10" },
-        { name: "Prova Presencial - 1º chamada", start: "23/10", end: "28/10" },
-        { name: "Avaliação 2", start: "11/09", end: "30/10" },
-      ],
-      color: "#0f766e",
-    },
-    {
-      name: "Algoritmos e Programação Estruturada",
-      events: [
-        ...commonEvents,
-        { name: "Portfólio", end: "28/10" },
-        { name: "Prova Presencial - 1º chamada", start: "30/10", end: "11/11" },
-        { name: "Avaliação 1", end: "13/11" },
-        { name: "Avaliação 2", end: "20/11" },
-      ],
-      color: "#0e7490",
-    },
-    {
-      name: "Análise e Modelagem de Sistemas",
-      events: [
-        ...commonEvents,
-        { name: "Portfólio", end: "11/11" },
-        { name: "Avaliação 1", start: "02/10", end: "20/11" },
-        { name: "Prova Presencial - 1º chamada", start: "20/11", end: "25/11" },
-        { name: "Avaliação 2", start: "02/10", end: "27/11" },
-      ],
-      color: "#0369a1",
-    },
-    {
-      name: "Todas as disciplinas",
-      events: [
-        { name: "Prova Presencial - 2º chamada", start: "27/11", end: "02/12" },
-        { name: "Avaliação Substituta 1", start: "28/11", end: "02/12" },
-        { name: "Avaliação Substituta 2", start: "28/11", end: "02/12" },
-        { name: "Prova Presencial - recuperação", start: "04/12", end: "09/12" },
-      ],
-      color: "var(--clr-700)",
-    },
-  ];
+class App extends React.Component {
+  state = {
+    calendars: this.getCalendars(),
+  };
 
-  return disciplines.map((discipline) => (
-    <table key={discipline.name} className="calendar">
-      <thead>
-        <tr>
-          <th
-            className="calendar__discipline"
-            colSpan={3}
-            style={{ background: discipline.color, border: `1px solid ${discipline.color}` }}
-          >
-            {discipline.name}
-          </th>
-        </tr>
-        <tr className="calendar__headers">
-          <th>Evento</th>
-          <th style={{ cursor: "pointer" }}>
-            <span>Início </span>
-          </th>
-          <th style={{ cursor: "pointer" }}>
-            <span>Fim </span>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        {discipline.events.map((event) => (
-          <tr key={event.name}>
-            <td>{event.name}</td>
-            <td className="calendar__date">{event.start || "-"}</td>
-            <td className="calendar__date">{event.end || "-"}</td>
+  getCalendars() {
+    const calendars = getCalendars();
+    calendars.forEach((c) => {
+      c.events.forEach((e) => {
+        e.done = null;
+      });
+    });
+    return calendars;
+  }
+
+  onCheckboxClick(i, j) {
+    const calendars = [...this.state.calendars];
+    const event = calendars[i].events[j];
+    const nextState = {
+      null: true,
+      true: false,
+      false: null,
+    };
+    event.done = nextState[event.done];
+    this.setState({ calendars });
+  }
+
+  render() {
+    const { calendars } = this.state;
+
+    return calendars.map((calendar, i) => (
+      <table key={calendar.name} className="calendar">
+        <thead>
+          <tr>
+            <th
+              className="calendar__discipline"
+              colSpan={3}
+              style={{ background: calendar.color, border: `1px solid ${calendar.color}` }}
+            >
+              {calendar.name}
+            </th>
           </tr>
-        ))}
-      </tbody>
-    </table>
-  ));
+          <tr className="calendar__headers">
+            <th>Evento</th>
+            <th style={{ cursor: "pointer" }}>
+              <span>Início </span>
+            </th>
+            <th style={{ cursor: "pointer" }}>
+              <span>Fim </span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {calendar.events.map((event, j) => (
+            <tr key={event.name}>
+              <td>
+                <Checkbox
+                  done={event.done}
+                  label={event.name}
+                  onClick={() => this.onCheckboxClick(i, j)}
+                />
+              </td>
+              <td className="calendar__date">{event.start || "-"}</td>
+              <td className="calendar__date">{event.end || "-"}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    ));
+  }
 }
 
 export default App;
