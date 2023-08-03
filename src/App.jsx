@@ -8,16 +8,28 @@ class App extends React.Component {
     calendars: this.getCalendars(),
   };
 
-  getCalendars() {
-    const calendars = getCalendars();
-    calendars.forEach((c) => {
-      if (!c.readOnly) {
-        c.events.forEach((e) => {
-          e.done = null;
-        });
-      }
+  componentDidUpdate() {
+    setTimeout(() => {
+      localStorage["ads-unopar"] = JSON.stringify(this.state.calendars);
     });
-    return calendars;
+  }
+
+  getCalendars() {
+    let calendars = localStorage["ads-unopar"];
+
+    if (calendars) {
+      return JSON.parse(calendars);
+    } else {
+      calendars = getCalendars();
+      calendars.forEach((c) => {
+        if (!c.readOnly) {
+          c.events.forEach((e) => {
+            e.done = null;
+          });
+        }
+      });
+      return calendars;
+    }
   }
 
   onCheckboxClick(i, j) {
