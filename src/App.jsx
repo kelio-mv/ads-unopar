@@ -11,9 +11,11 @@ class App extends React.Component {
   getCalendars() {
     const calendars = getCalendars();
     calendars.forEach((c) => {
-      c.events.forEach((e) => {
-        e.done = null;
-      });
+      if (!c.readOnly) {
+        c.events.forEach((e) => {
+          e.done = null;
+        });
+      }
     });
     return calendars;
   }
@@ -59,11 +61,15 @@ class App extends React.Component {
           {calendar.events.map((event, j) => (
             <tr key={event.name}>
               <td>
-                <Checkbox
-                  done={event.done}
-                  label={event.name}
-                  onClick={() => this.onCheckboxClick(i, j)}
-                />
+                {calendar.readOnly ? (
+                  event.name
+                ) : (
+                  <Checkbox
+                    done={event.done}
+                    label={event.name}
+                    onClick={() => this.onCheckboxClick(i, j)}
+                  />
+                )}
               </td>
               <td className="calendar__date">{event.start || "-"}</td>
               <td className="calendar__date">{event.end || "-"}</td>

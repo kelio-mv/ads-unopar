@@ -30,6 +30,12 @@ html {
   --clr-800: #1e293b;
 }
 
+@media (max-width: 480px) {
+  html {
+    font-size: 15px;
+  }
+}
+
 @media (max-width: 400px) {
   html {
     font-size: 14px;

@@ -77,6 +77,7 @@ function getCalendars() {
         { name: "Prova Presencial - recuperação", start: "04/12", end: "09/12" },
       ],
       color: "#334155",
+      readOnly: true,
     },
   ];
 }
