@@ -19,39 +19,43 @@ function App() {
       events: [
         ...commonEvents,
         { name: "Avaliação 1", end: "28/08" },
-        { name: "Avaliação 2", end: "04/09" },
         { name: "Prova Presencial - 1º chamada", start: "28/08", end: "02/09" },
+        { name: "Avaliação 2", end: "04/09" },
         { name: "Portfólio", end: "28/10" },
       ],
+      color: "#15803d",
     },
     {
       name: "Engenharia de Software",
       events: [
         ...commonEvents,
         { name: "Avaliação 1", start: "21/08", end: "25/09" },
-        { name: "Avaliação 2", start: "21/08", end: "02/10" },
         { name: "Prova Presencial - 1º chamada", start: "25/09", end: "30/09" },
+        { name: "Avaliação 2", start: "21/08", end: "02/10" },
       ],
+      color: "#047857",
     },
     {
       name: "Lógica e Matemática Computacional",
       events: [
         ...commonEvents,
         { name: "Avaliação 1", start: "11/09", end: "23/10" },
-        { name: "Avaliação 2", start: "11/09", end: "30/10" },
         { name: "Portfólio", end: "28/10" },
         { name: "Prova Presencial - 1º chamada", start: "23/10", end: "28/10" },
+        { name: "Avaliação 2", start: "11/09", end: "30/10" },
       ],
+      color: "#0f766e",
     },
     {
       name: "Algoritmos e Programação Estruturada",
       events: [
         ...commonEvents,
         { name: "Portfólio", end: "28/10" },
+        { name: "Prova Presencial - 1º chamada", start: "30/10", end: "11/11" },
         { name: "Avaliação 1", end: "13/11" },
         { name: "Avaliação 2", end: "20/11" },
-        { name: "Prova Presencial - 1º chamada", start: "30/10", end: "11/11" },
       ],
+      color: "#0e7490",
     },
     {
       name: "Análise e Modelagem de Sistemas",
@@ -59,18 +63,20 @@ function App() {
         ...commonEvents,
         { name: "Portfólio", end: "11/11" },
         { name: "Avaliação 1", start: "02/10", end: "20/11" },
-        { name: "Avaliação 2", start: "02/10", end: "27/11" },
         { name: "Prova Presencial - 1º chamada", start: "20/11", end: "25/11" },
+        { name: "Avaliação 2", start: "02/10", end: "27/11" },
       ],
+      color: "#0369a1",
     },
     {
       name: "Todas as disciplinas",
       events: [
+        { name: "Prova Presencial - 2º chamada", start: "27/11", end: "02/12" },
         { name: "Avaliação Substituta 1", start: "28/11", end: "02/12" },
         { name: "Avaliação Substituta 2", start: "28/11", end: "02/12" },
-        { name: "Prova Presencial - 2º chamada", start: "27/11", end: "02/12" },
         { name: "Prova Presencial - recuperação", start: "04/12", end: "09/12" },
       ],
+      color: "var(--clr-700)",
     },
   ];
 
@@ -78,7 +84,11 @@ function App() {
     <table key={discipline.name} className="calendar">
       <thead>
         <tr>
-          <th className="calendar__title" colSpan={3}>
+          <th
+            className="calendar__discipline"
+            colSpan={3}
+            style={{ background: discipline.color, border: `1px solid ${discipline.color}` }}
+          >
             {discipline.name}
           </th>
         </tr>
