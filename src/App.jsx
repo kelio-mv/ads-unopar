@@ -93,6 +93,10 @@ class App extends React.Component {
             </tbody>
           </table>
         ))}
+        <Alert>
+          Teleaulas e Conteúdos Web não possuem prazo pois podem ser acessados a qualquer momento
+          durante o decorrer do semestre.
+        </Alert>
         <Alert>As lives não estão inclusas pois as datas ainda não estão disponíveis.</Alert>
         <Alert>
           As gravações de lives não estão inclusas pois algumas das datas de início apresentadas não
