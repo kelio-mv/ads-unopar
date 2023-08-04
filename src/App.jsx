@@ -1,5 +1,6 @@
 import React from "react";
 import Checkbox from "./Checkbox";
+import Alert from "./Alert";
 import getCalendars from "./calendars";
 import "./App.scss";
 
@@ -47,60 +48,60 @@ class App extends React.Component {
   render() {
     const { calendars } = this.state;
 
-    return calendars.map((calendar, i) => (
-      <table key={calendar.name} className="calendar">
-        <thead>
-          <tr>
-            <th
-              className="calendar__discipline"
-              colSpan={3}
-              style={{ background: calendar.color, border: `1px solid ${calendar.color}` }}
-            >
-              {calendar.name}
-            </th>
-          </tr>
-          <tr className="calendar__headers">
-            <th>Evento</th>
-            <th style={{ cursor: "pointer" }}>
-              <span>Início </span>
-            </th>
-            <th style={{ cursor: "pointer" }}>
-              <span>Fim </span>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {calendar.events.map((event, j) => (
-            <tr key={event.name}>
-              <td>
-                {calendar.readOnly ? (
-                  event.name
-                ) : (
-                  <Checkbox
-                    done={event.done}
-                    label={event.name}
-                    onClick={() => this.onCheckboxClick(i, j)}
-                  />
-                )}
-              </td>
-              <td className="calendar__date">{event.start || "-"}</td>
-              <td className="calendar__date">{event.end || "-"}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    ));
+    return (
+      <>
+        {calendars.map((calendar, i) => (
+          <table key={calendar.name} className="calendar">
+            <thead>
+              <tr>
+                <th
+                  className="calendar__discipline"
+                  colSpan={3}
+                  style={{ background: calendar.color, border: `1px solid ${calendar.color}` }}
+                >
+                  {calendar.name}
+                </th>
+              </tr>
+              <tr className="calendar__headers">
+                <th>Evento</th>
+                <th style={{ cursor: "pointer" }}>
+                  <span>Início </span>
+                </th>
+                <th style={{ cursor: "pointer" }}>
+                  <span>Fim </span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {calendar.events.map((event, j) => (
+                <tr key={event.name}>
+                  <td>
+                    {calendar.readOnly ? (
+                      event.name
+                    ) : (
+                      <Checkbox
+                        done={event.done}
+                        label={event.name}
+                        onClick={() => this.onCheckboxClick(i, j)}
+                      />
+                    )}
+                  </td>
+                  <td className="calendar__date">{event.start || "-"}</td>
+                  <td className="calendar__date">{event.end || "-"}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ))}
+        <Alert>As lives não estão inclusas pois as datas ainda não estão disponíveis.</Alert>
+        <Alert>
+          As gravações de lives não estão inclusas pois algumas das datas de início apresentadas não
+          correspondem à data de sua disponibilização e são opcionais aos alunos que assistirem a
+          live durante a sua transmissão.
+        </Alert>
+      </>
+    );
   }
 }
 
 export default App;
-
-// Não incluir Gravação de Live, pois a data de início não corresponde à data em que ela
-// estará disponível, além disso, é opcional para quem já assistiu a Live ao vivo.
-// Não incluir Leitura, pois a mesma contém apenas o Plano de Ensino e o Livro Didático,
-// não sendo considerado um evento.
-// As avaliações substitutas permitem aos alunos substituírem as notas de suas avaliações
-// virtuais, não sendo obrigatório para quem já teve um bom desempenho.
-// adicionar info sobre 2º chamada e recuperação
-
-// { name: "Gravação da Live", start: "31/07", end: "09/12" },

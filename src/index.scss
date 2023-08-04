@@ -16,7 +16,7 @@ html {
   font-family: "Gantari", sans-serif;
   line-height: 1.25;
   color: var(--clr-800);
-  background: var(--clr-300);
+  background: var(--clr-100);
   padding: 1rem 0;
 
   --clr-000: #fff;
@@ -30,7 +30,7 @@ html {
   --clr-800: #1e293b;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 440px) {
   html {
     font-size: 15px;
   }
