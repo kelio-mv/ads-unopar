@@ -63,7 +63,7 @@ class App extends React.Component {
                 </th>
               </tr>
               <tr className="calendar__headers">
-                <th>Evento</th>
+                <th>Atividade</th>
                 <th style={{ cursor: "pointer" }}>
                   <span>Início </span>
                 </th>
