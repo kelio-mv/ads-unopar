@@ -1,12 +1,12 @@
 import React from "react";
 import Checkbox from "./Checkbox";
 import Alert from "./Alert";
-import getCalendars from "./calendars";
+import storage from "./storage";
 import "./App.scss";
 
 class App extends React.Component {
   state = {
-    calendars: this.getCalendars(),
+    calendars: storage.calendars,
   };
 
   componentDidMount() {
@@ -18,30 +18,6 @@ class App extends React.Component {
     });
   }
 
-  componentDidUpdate() {
-    setTimeout(() => {
-      localStorage["ads-unopar"] = JSON.stringify(this.state.calendars);
-    });
-  }
-
-  getCalendars() {
-    let calendars = localStorage["ads-unopar"];
-
-    if (calendars) {
-      return JSON.parse(calendars);
-    } else {
-      calendars = getCalendars();
-      calendars.forEach((c) => {
-        if (!c.readOnly) {
-          c.events.forEach((e) => {
-            e.done = null;
-          });
-        }
-      });
-      return calendars;
-    }
-  }
-
   onCheckboxClick(i, j) {
     const calendars = [...this.state.calendars];
     const event = calendars[i].events[j];
@@ -51,7 +27,7 @@ class App extends React.Component {
       false: null,
     };
     event.done = nextState[event.done];
-    this.setState({ calendars });
+    this.setState({ calendars }, () => storage.saveCalendars(this.state.calendars));
   }
 
   render() {
@@ -101,6 +77,9 @@ class App extends React.Component {
         <Alert>
           A ausência das datas de início e fim de uma atividade indicam que ela pode ser realizada
           desde o início do semestre (31/07) e até o final do semestre (09/12) respectivamente.
+        </Alert>
+        <Alert>
+          Algumas atividades não estão cronologicamente ordenadas. Fique atento(a) aos prazos!
         </Alert>
       </>
     );

@@ -1,5 +1,3 @@
-import Icon from "./Icon";
-
 function Checkbox(props) {
   const modifier = {
     null: "",
@@ -10,9 +8,7 @@ function Checkbox(props) {
   return (
     <div className="checkbox" onClick={props.onClick}>
       <div className={`checkbox__input ${modifier[props.done]}`}>
-        {props.done !== null && (
-          <img className="checkbox__image" src={props.done ? "done.svg" : "undone.svg"} />
-        )}
+        {props.done !== null && <img src={props.done ? "done.svg" : "undone.svg"} />}
       </div>
       <span>{props.label}</span>
     </div>
