@@ -1,4 +1,5 @@
 import React from "react";
+import Icon from "./Icon";
 import Checkbox from "./Checkbox";
 import Alert from "./Alert";
 import getCalendars from "./calendars";
@@ -8,6 +9,12 @@ class App extends React.Component {
   state = {
     calendars: this.getCalendars(),
   };
+
+  componentDidMount() {
+    // Preload icons
+    const icons = ["done", "undone"];
+    icons.forEach((icon) => <Icon name={icon} />);
+  }
 
   componentDidUpdate() {
     setTimeout(() => {
@@ -90,14 +97,8 @@ class App extends React.Component {
           </table>
         ))}
         <Alert>
-          Teleaulas e Conteúdos Web não possuem prazo pois podem ser acessados a qualquer momento
-          durante o decorrer do semestre.
-        </Alert>
-        <Alert>As lives não estão inclusas pois as datas ainda não estão disponíveis.</Alert>
-        <Alert>
-          As gravações de lives não estão inclusas pois algumas das datas de início apresentadas não
-          correspondem à data de sua disponibilização e são opcionais aos alunos que assistirem a
-          live durante a sua transmissão.
+          A ausência das datas de início e fim de uma atividade indicam que ela pode ser realizada
+          desde o início do semestre (31/07) e até o final do semestre (09/12) respectivamente.
         </Alert>
       </>
     );

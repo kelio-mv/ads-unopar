@@ -1,3 +1,5 @@
+import Icon from "./Icon";
+
 function Checkbox(props) {
   const modifier = {
     null: "",

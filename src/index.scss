@@ -12,12 +12,17 @@
   font: inherit;
 }
 
+img {
+  max-width: 100%;
+}
+
 html {
   font-family: "Gantari", sans-serif;
   line-height: 1.25;
   color: var(--clr-800);
   background: var(--clr-300);
   padding: 1rem 0;
+  user-select: none;
 
   --clr-000: #fff;
   --clr-100: #f3f4f6;

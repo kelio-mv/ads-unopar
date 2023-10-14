@@ -1,7 +1,9 @@
+import Icon from "./Icon";
+
 function Alert(props) {
   return (
     <div className="alert">
-      <img src="info.svg" className="alert__icon" />
+      <Icon name="info" />
       <span> {props.children}</span>
     </div>
   );
