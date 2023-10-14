@@ -1,5 +1,4 @@
 import React from "react";
-import Icon from "./Icon";
 import Checkbox from "./Checkbox";
 import Alert from "./Alert";
 import getCalendars from "./calendars";
@@ -13,7 +12,10 @@ class App extends React.Component {
   componentDidMount() {
     // Preload icons
     const icons = ["done", "undone"];
-    icons.forEach((icon) => <Icon name={icon} />);
+    icons.forEach((icon) => {
+      const img = new Image();
+      img.src = icon + ".svg";
+    });
   }
 
   componentDidUpdate() {
