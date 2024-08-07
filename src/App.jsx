@@ -1,24 +1,42 @@
-import { useState } from "react";
+import useStorage from "./useStorage";
 import Checkbox from "./Checkbox";
 import Alert from "./Alert";
-import storage from "./storage";
+import initialSchedule from "./schedule";
 import "./App.scss";
 
 function App() {
-  const [schedule, setSchedule] = useState(storage.schedule);
+  const [schedule, setSchedule] = useStorage("ads-unopar", getInitialSchedule());
+
+  function getInitialSchedule() {
+    initialSchedule.forEach((discipline) => {
+      if (!discipline.readOnly) {
+        discipline.activities.forEach((activity) => {
+          activity.done = null;
+        });
+      }
+    });
+    return initialSchedule;
+  }
+
+  function handleCheckboxClick(discIndex, actIndex) {
+    const activity = schedule[discIndex].activities[actIndex];
+    const nextState = { null: true, true: false, false: null };
+    activity.done = nextState[activity.done];
+    setSchedule([...schedule]);
+  }
 
   return (
     <>
-      {schedule.map((d, di) => (
-        <table key={d.name} className="discipline">
+      {schedule.map((disc, discIndex) => (
+        <table key={disc.name} className="discipline">
           <thead>
             <tr>
               <th
                 className="discipline__name"
                 colSpan={3}
-                style={{ background: d.color, border: `1px solid ${d.color}` }}
+                style={{ background: disc.color, border: `1px solid ${disc.color}` }}
               >
-                {d.name}
+                {disc.name}
               </th>
             </tr>
             <tr className="discipline__headers">
@@ -28,21 +46,21 @@ function App() {
             </tr>
           </thead>
           <tbody>
-            {d.activities.map((a, ai) => (
-              <tr key={a.name}>
+            {disc.activities.map((act, actIndex) => (
+              <tr key={act.name}>
                 <td>
-                  {d.readOnly ? (
-                    a.name
+                  {disc.readOnly ? (
+                    act.name
                   ) : (
                     <Checkbox
-                      done={a.done}
-                      label={a.name}
-                      onClick={() => setSchedule(storage.editState(di, ai))}
+                      done={act.done}
+                      label={act.name}
+                      onClick={() => handleCheckboxClick(discIndex, actIndex)}
                     />
                   )}
                 </td>
-                <td className="discipline__date">{a.start || "-"}</td>
-                <td className="discipline__date">{a.end || "-"}</td>
+                <td className="discipline__date">{act.start || "-"}</td>
+                <td className="discipline__date">{act.end || "-"}</td>
               </tr>
             ))}
           </tbody>
